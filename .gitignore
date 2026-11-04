@@ -2,3 +2,17 @@ node_modules
 dist
 .env
 .DS_Store
+
+# backend (nao versionar aqui)
+.mvn/
+.vscode/
+.gitattributes
+HELP.md
+Respostas.txt
+mvnw
+mvnw.cmd
+pom.xml
+src/main/
+src/test/
+target/
+uploads/
