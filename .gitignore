@@ -1,18 +1,23 @@
-node_modules
-dist
+# --- segredos ---
+**/secrets.properties
 .env
-.DS_Store
 
-# backend (nao versionar aqui)
-.mvn/
+# --- backend (Java/Maven) ---
+backend/target/
+backend/uploads/
+backend/HELP.md
+
+# --- frontend (Node) ---
+node_modules/
+dist/
+
+# --- editor / sistema ---
 .vscode/
-.gitattributes
-HELP.md
-Respostas.txt
-mvnw
-mvnw.cmd
-pom.xml
-src/main/
-src/test/
-target/
-uploads/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Configurações locais e credenciais
+**/application.properties
+**/secrets.properties
+.env

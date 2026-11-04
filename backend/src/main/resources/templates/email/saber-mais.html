@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Informações do imóvel</title>
+</head>
+<body style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: auto;">
+
+  <h2>Olá, <span th:text="${nomeCliente}">Cliente</span>!</h2>
+
+  <p th:text="${mensagemImobiliaria}">Mensagem da imobiliária</p>
+
+  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin: 16px 0;">
+    <h3 th:text="${titulo}">Título do imóvel</h3>
+    <p th:if="${tipo != null}"><strong>Tipo:</strong> <span th:text="${tipo}"></span></p>
+    <p th:if="${descricao != null}" th:text="${descricao}"></p>
+
+    <p th:if="${precoVenda != null}">
+      <strong>Venda:</strong> R$
+      <span th:text="${#numbers.formatDecimal(precoVenda, 1, 'POINT', 2, 'COMMA')}"></span>
+    </p>
+    <p th:if="${precoAluguel != null}">
+      <strong>Aluguel:</strong> R$
+      <span th:text="${#numbers.formatDecimal(precoAluguel, 1, 'POINT', 2, 'COMMA')}"></span>
+    </p>
+
+    <p th:if="${bairro != null}"><strong>Bairro:</strong> <span th:text="${bairro}"></span></p>
+    <p><strong>Endereço:</strong> <span th:text="${endereco}"></span></p>
+
+    <p>
+      <span th:if="${dormitorios != null}" th:text="${dormitorios} + ' dorm. '"></span>
+      <span th:if="${banheiros != null}" th:text="${banheiros} + ' banh. '"></span>
+      <span th:if="${garagem != null}" th:text="${garagem} + ' vaga(s)'"></span>
+    </p>
+    <p th:if="${areaTotal != null}"><strong>Área total:</strong>
+      <span th:text="${areaTotal} + ' m²'"></span></p>
+    <p th:if="${areaConstruida != null}"><strong>Área construída:</strong>
+      <span th:text="${areaConstruida} + ' m²'"></span></p>
+
+    <p th:if="${caracteristicas != null}"><strong>Características:</strong>
+      <span th:text="${caracteristicas}"></span></p>
+  </div>
+
+    <p><small>Contato registrado em
+    <span th:text="${#temporals.format(dataContato, 'dd/MM/yyyy HH:mm')}"></span></small></p>
+
+  <p><em>Sua mensagem:</em> <span th:text="${mensagemCliente}"></span></p>
+
+  <p>Atenciosamente,<br>Equipe da Imobiliária</p>
+</body>
+</html>
