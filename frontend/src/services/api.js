@@ -27,6 +27,24 @@ export const userStore = {
   set: (u) => localStorage.setItem(USER_KEY, JSON.stringify(u)),
 }
 
+// Lê o payload do JWT (sub, role, exp). Não valida assinatura — isso é do backend.
+export function decodificarToken(token) {
+  try {
+    const b64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')
+    const json = decodeURIComponent(
+      atob(b64).split('').map((c) => '%' + c.charCodeAt(0).toString(16).padStart(2, '0')).join(''),
+    )
+    return JSON.parse(json)
+  } catch {
+    return null
+  }
+}
+
+export const tokenExpirado = (token) => {
+  const exp = decodificarToken(token)?.exp
+  return !exp || exp * 1000 <= Date.now()
+}
+
 export class ApiError extends Error {
   constructor(status, message) {
     super(message)
@@ -44,7 +62,7 @@ function mensagemPadrao(status) {
     case 403: return 'Acesso negado. Você não tem permissão para isso.'
     case 404: return 'Item não encontrado.'
     case 409: return 'Esta ação conflita com uma regra do sistema.'
-    case 500: return 'Erro no servidor. Tente novamente em instantes.'
+    case 500: case 502: case 503: case 504: return 'Erro no servidor. Tente novamente em instantes.'
     default: return 'Não foi possível concluir a operação.'
   }
 }
@@ -63,7 +81,7 @@ async function lerCorpo(res) {
 function mensagemDoCorpo(corpo) {
   if (!corpo) return null
   if (typeof corpo === 'string') return corpo.length < 200 && !corpo.trim().startsWith('<') ? corpo : null
-  return corpo.message || corpo.mensagem || corpo.error || null
+  return corpo.message || corpo.mensagem || null
 }
 
 /**
@@ -116,10 +134,12 @@ export const api = {
 export const imoveisApi = {
   listar: () => api.get('/imoveis', { auth: false }),
   buscar: (id) => api.get(`/imoveis/${id}`, { auth: false }),
+  // Envia o e-mail de interesse pelo backend (Mailgun). Público: não precisa de login.
+  saberMais: (id, dados) => api.post(`/imoveis/sabermais/${id}`, dados, { auth: false }),
 }
 
 export const authApi = {
-  login: (email, senha) => api.post('/auth/login', { email, senha }, { auth: false }),
+  login: (email, senha) => api.post('/public/login', { email, senha }, { auth: false }),
 }
 
 export const fotosApi = {
@@ -127,8 +147,12 @@ export const fotosApi = {
 }
 
 // A API devolve só o nome do arquivo; o backend serve em /uploads/{imovelId}/{arquivo}
-export const fotoUrl = (foto) =>
-  foto ? `${BASE_URL}/uploads/${foto.imovel?.id}/${encodeURIComponent(foto.nomeArquivo)}` : null
+export const fotoUrl = (foto, imovelId) => {
+  if (!foto) return null
+  const id = imovelId ?? foto.imovel?.id
+  return `${BASE_URL}/uploads/${id}/${encodeURIComponent(foto.nomeArquivo)}`
+}
 
 // Capa = foto marcada como capa; senão a primeira da lista
 export const escolherCapa = (fotos) => (fotos ?? []).find((f) => f.capa) ?? fotos?.[0] ?? null
+

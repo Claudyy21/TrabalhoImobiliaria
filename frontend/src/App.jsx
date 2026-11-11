@@ -3,7 +3,8 @@ import Navbar from './components/Navbar.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
 import Home from './pages/Home.jsx'
 import Login from './pages/Login.jsx'
-import { AdminHome, ClienteHome, DetalheImovel } from './pages/Placeholders.jsx'
+import DetalheImovel from './pages/DetalheImovel.jsx'
+import { AdminHome, ClienteHome } from './pages/Placeholders.jsx'
 import { AcessoNegado, NaoEncontrado } from './pages/Erros.jsx'
 
 export default function App() {

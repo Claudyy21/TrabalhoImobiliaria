@@ -57,7 +57,14 @@ npm run dev
 ```
 Abra **http://localhost:5173**. Em desenvolvimento o Vite repassa `/api/*` para `http://localhost:8080`, então não há problema de CORS.
 
-### 4. Dados de teste (se não usou o `dados.sql`)
+### 4. Conferir a API (opcional)
+Com o backend no ar, este script testa os 9 comportamentos de segurança esperados (vitrine pública, login, token, 401, 403, token adulterado…):
+```bash
+cd frontend
+node scripts/checar-api.mjs
+```
+
+### 5. Dados de teste (se não usou o `dados.sql`)
 Com o backend no ar:
 ```bash
 cd frontend
@@ -92,8 +99,8 @@ A API devolve **401** sem token, **403** sem permissão. O front apaga o token e
 ## Andamento
 
 - [x] Checkpoint 1 — setup, listagem de imóveis em grade com paginação, login JWT, rotas protegidas
-- [ ] Checkpoint 2 — detalhe, contato por e-mail, filtros, ordenação, ofertas
-- [ ] Checkpoint 3 — favoritos, contratos, CRUDs do admin
+- [x] Checkpoint 2 — filtros (bairro, finalidade, faixa de preço), ordenação por preço, detalhe do imóvel, contato por e-mail, login com validação, rotas e menu por perfil, logout, sessão expirada
+- [ ] Checkpoint 3 — ofertas, favoritos, contratos e CRUDs do admin
 - [ ] Checkpoint 4 — painel com gráficos, gestão de ofertas e contratos
 
 Mais detalhes do front-end em [`frontend/README.md`](frontend/README.md).

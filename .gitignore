@@ -1,4 +1,4 @@
-# --- segredos ---
+# --- segredos (nunca vão para o Git) ---
 **/secrets.properties
 .env
 
@@ -11,13 +11,9 @@ backend/HELP.md
 node_modules/
 dist/
 
-# --- editor / sistema ---
+# --- editor / sistema / ferramentas ---
 .vscode/
 .idea/
+.github/modernize/
 .DS_Store
 Thumbs.db
-
-# Configurações locais e credenciais
-**/application.properties
-**/secrets.properties
-.env

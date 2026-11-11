@@ -8,7 +8,7 @@ function Capa({ imovel }) {
   // Falha ao buscar fotos não deve quebrar o card: cai no ícone
   const { dados: fotos } = useFetch(() => fotosApi.listarPorImovel(imovel.id).catch(() => []), [imovel.id])
   const [quebrou, setQuebrou] = useState(false)
-  const url = fotoUrl(escolherCapa(fotos))
+  const url = fotoUrl(escolherCapa(fotos), imovel.id)
 
   if (!url || quebrou) return <span className="text-4xl text-azul/40">⌂</span>
   return (
